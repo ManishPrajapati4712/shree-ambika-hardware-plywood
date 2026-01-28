@@ -546,9 +546,7 @@ const Admin = () => {
 
         </Tabs>
 
-        <p className="text-center text-sm text-muted-foreground mt-8">
-          Note: Product changes are stored locally. For persistent storage, connect to Lovable Cloud.
-        </p>
+
       </div>
     </div >
   );
