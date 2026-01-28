@@ -8,6 +8,7 @@ export interface Product {
   size?: string;
   thickness?: string;
   imageFit?: 'cover' | 'contain';
+  popular?: boolean;
 }
 
 export interface Category {
@@ -35,7 +36,7 @@ export const categories: Category[] = [
   },
   {
     id: "hardware-tools",
-    name: "Hardware Tools",
+    name: "Tools",
     icon: "Wrench",
     description: "Professional grade tools for every project",
     image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop"
@@ -49,7 +50,7 @@ export const categories: Category[] = [
   },
   {
     id: "fittings",
-    name: "Nails, Screws & Fittings",
+    name: "Plumbing Accessories",
     icon: "Cog",
     description: "Essential fittings for all construction work",
     image: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=400&h=300&fit=crop"
@@ -210,6 +211,46 @@ export const products: Product[] = [
     description: "High-quality ready-to-use crack filling paste suitable for internal walls and plaster.",
     size: "500g",
     imageFit: "contain"
+  },
+  {
+    id: "finolex-pipe",
+    name: "Finolex SWR Pipe",
+    price: 450,
+    category: "fittings",
+    image: "/finolex-pipes.png",
+    description: "Superior quality SWR pipes with UV resistance for long-lasting drainage systems",
+    size: "10 ft",
+    imageFit: "contain"
+  },
+  {
+    id: "astral-pipe",
+    name: "Astral CPVC Pro Pipe",
+    price: 350,
+    category: "fittings",
+    image: "/astral-pipes.png",
+    description: "Lead-free CPVC pipes for hot and cold water plumbing systems",
+    size: "10 ft",
+    imageFit: "contain"
+  },
+  {
+    id: "premium-plywood",
+    name: "Premium Gurjan Plywood",
+    price: 3200,
+    category: "plywood",
+    image: "/plywood.jpg",
+    description: "Termite and borer resistant premium grade plywood for furniture",
+    size: "8x4 feet",
+    thickness: "19mm",
+    imageFit: "cover"
+  },
+  {
+    id: "dongcheng-grinder",
+    name: "DongCheng Angle Grinder",
+    price: 2200,
+    category: "hardware-tools",
+    image: "/dongcheng.png",
+    description: "Heavy-duty 850W angle grinder for cutting and grinding applications",
+    imageFit: "contain"
   }
 ];
 
@@ -221,6 +262,6 @@ export const storeInfo = {
   email: "shreeambikahandp@gmail.com",
   address: "Kachchhi Colony, near to Pataneshwar Mahadev Temple",
   city: "Deesa, 385535",
-  mapUrl: "https://maps.google.com/?q=24.251992514064284,72.18971947099263",
-  hours: "Mon-Sat: 9:00 AM - 8:00 PM | Sun: 10:00 AM - 2:00 PM"
+  mapUrl: "https://maps.google.com/?q=24.251879214343376,72.19014024486967",
+  hours: "Mon-Sat: 8:00 AM - 8:00 PM | Sun: 8:00 AM - 1:00 PM"
 };

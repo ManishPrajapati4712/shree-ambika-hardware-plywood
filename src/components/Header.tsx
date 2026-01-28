@@ -1,14 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Phone, Wrench, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useCart } from '@/context/CartContext';
+
 import { storeInfo } from '@/lib/data';
 import { Button } from '@/components/ui/button';
+import OfferBanner from './OfferBanner';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { totalItems } = useCart();
+
   const location = useLocation();
 
   useEffect(() => {
@@ -57,12 +58,15 @@ export function Header() {
         </div>
       </div>
 
+      {/* Offer Banner */}
+      <OfferBanner />
+
       {/* Main header */}
       <div className="container py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <img src="/logo.jpg" alt="Ambika Hardware Logo" className="w-12 h-12 rounded-xl object-contain bg-white group-hover:scale-105 transition-transform" />
+            <img src="/logo.png" alt="Ambika Hardware Logo" className="w-12 h-12 rounded-xl object-contain bg-white group-hover:scale-105 transition-transform" />
             <div className="hidden sm:block">
               <h1 className={`text-xl font-display leading-tight transition-colors ${isScrolled || !isHeroPage ? 'text-foreground' : 'text-primary-foreground'
                 }`}>
@@ -96,20 +100,7 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <Link to="/cart" className="relative">
-              <Button
-                variant="outline"
-                size="icon"
-                className="relative transition-all"
-              >
-                <ShoppingCart className="h-5 w-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center animate-scale-in">
-                    {totalItems}
-                  </span>
-                )}
-              </Button>
-            </Link>
+
 
             {/* User / Login */}
             {localStorage.getItem('user') ? (
@@ -165,8 +156,8 @@ export function Header() {
 
         {/* Mobile Nav */}
         {isMenuOpen && (
-          <nav className="md:hidden pt-4 pb-2 border-t border-border/50 mt-4 animate-fade-up">
-            <div className="flex flex-col gap-1">
+          <nav className="md:hidden pt-2 pb-2 border-t border-border/50 mt-4 animate-fade-up bg-white text-black shadow-xl rounded-xl z-50 relative">
+            <div className="flex flex-col gap-1 p-2">
               {navLinks.map(link => (
                 <Link
                   key={link.href}
@@ -174,7 +165,7 @@ export function Header() {
                   onClick={() => setIsMenuOpen(false)}
                   className={`py-3 px-4 rounded-lg font-display text-lg tracking-wide transition-colors ${isActive(link.href)
                     ? 'bg-accent text-accent-foreground'
-                    : 'hover:bg-muted'
+                    : 'hover:bg-muted text-gray-800'
                     }`}
                 >
                   {link.label}
@@ -183,7 +174,7 @@ export function Header() {
               <Link
                 to="/admin"
                 onClick={() => setIsMenuOpen(false)}
-                className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted"
+                className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted text-gray-800"
               >
                 Admin Panel
               </Link>
@@ -194,7 +185,7 @@ export function Header() {
                     localStorage.removeItem('user');
                     window.location.reload();
                   }}
-                  className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted text-left w-full"
+                  className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted text-left w-full text-gray-800"
                 >
                   Logout
                 </button>
@@ -202,7 +193,7 @@ export function Header() {
                 <Link
                   to="/login"
                   onClick={() => setIsMenuOpen(false)}
-                  className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted"
+                  className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted text-gray-800"
                 >
                   Login
                 </Link>

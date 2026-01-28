@@ -17,7 +17,7 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/login', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ phone, password }),
@@ -43,7 +43,7 @@ const Login = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-50/50 px-4 py-12 sm:px-6 lg:px-8">
             <Card className="w-full max-w-md shadow-xl border-t-4 border-t-accent">
                 <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold tracking-tight text-center">Welcome back</CardTitle>
+                    <CardTitle className="text-2xl font-bold tracking-tight text-center" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>WELCOM TO THE SHREE AMBIKA HARDWARE & PLYWOOD</CardTitle>
                     <CardDescription className="text-center">
                         Enter your phone number and password to access your account
                     </CardDescription>

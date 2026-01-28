@@ -13,9 +13,9 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <img src="/logo.jpg" alt="Ambika Hardware Logo" className="w-14 h-14 rounded-xl object-contain bg-white" />
+              <img src="/logo.png" alt="Ambika Hardware Logo" className="w-14 h-14 rounded-xl object-contain bg-white" />
               <div>
-                <h3 className="font-display text-2xl">Ambika Hardware</h3>
+                <h3 className="text-2xl font-display font-bold mb-4" style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>Ambika Hardware & Plywood</h3>
                 <p className="text-sm opacity-60 font-display tracking-widest">& Plywood</p>
               </div>
             </div>
@@ -47,7 +47,6 @@ export function Footer() {
                 { to: '/', label: 'Home' },
                 { to: '/products', label: 'Products' },
                 { to: '/contact', label: 'Contact Us' },
-                { to: '/cart', label: 'Cart' },
               ].map(link => (
                 <Link
                   key={link.to}
@@ -78,7 +77,7 @@ export function Footer() {
               </div>
               <div className="flex items-start gap-3 opacity-70">
                 <Clock className="h-5 w-5 flex-shrink-0 mt-0.5 text-accent" />
-                <span className="text-sm">Mon-Sat: 9AM - 8PM<br />Sun: 10AM - 2PM</span>
+                <span className="text-sm">Mon-Sat: 8AM - 8PM<br />Sun: 8AM - 1PM</span>
               </div>
             </div>
           </div>

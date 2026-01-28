@@ -6,6 +6,7 @@ import { categories, storeInfo } from '@/lib/data';
 import { useProducts } from '@/context/ProductContext';
 import { ProductCard } from '@/components/ProductCard';
 import { Hero } from '@/components/Hero';
+import OfferSection from '@/components/OfferSection';
 
 const features = [
   {
@@ -40,13 +41,13 @@ const Index = () => {
       <Hero />
 
       {/* Features Strip */}
-      <section className="py-6 bg-accent">
+      <section className="py-6" style={{ backgroundColor: 'lightcyan' }}>
         <div className="container">
           <div className="flex flex-wrap justify-center gap-8 md:gap-16">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="flex items-center gap-3 text-accent-foreground opacity-0 animate-fade-up"
+                className="flex items-center gap-3 text-black opacity-0 animate-fade-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <feature.icon className="h-6 w-6" />
@@ -75,7 +76,7 @@ const Index = () => {
             <div className="space-y-6 relative">
               {/* Background Watermark */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
-                <img src="/logo.jpg" alt="Watermark" className="w-80 h-80 object-contain grayscale" />
+                <img src="/ambika-logo.png" alt="Watermark" className="w-80 h-80 object-contain grayscale" />
               </div>
 
               <div>
@@ -89,12 +90,15 @@ const Index = () => {
                 in the market.
               </p>
               <div className="pt-8 relative z-10 flex justify-center">
-                <img src="/logo.jpg" alt="Ambika Hardware" className="h-32 object-contain rounded-xl bg-white/50 p-2 backdrop-blur-sm" />
+                <img src="/ambika-logo.png" alt="Ambika Hardware" className="h-32 object-contain rounded-xl bg-white/50 p-2 backdrop-blur-sm" />
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Offer Section */}
+      <OfferSection />
 
       {/* Categories */}
       <section className="py-20 md:py-32">

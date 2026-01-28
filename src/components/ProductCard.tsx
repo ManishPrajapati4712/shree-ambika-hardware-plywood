@@ -1,7 +1,7 @@
 import { ShoppingCart, MessageCircle, Phone } from 'lucide-react';
 import { Product } from '@/lib/data';
 import { storeInfo } from '@/lib/data';
-import { useCart } from '@/context/CartContext';
+
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
@@ -10,12 +10,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast.success(`${product.name} added to cart!`);
-  };
 
   const handleWhatsAppOrder = () => {
     const message = encodeURIComponent(
@@ -91,13 +86,7 @@ export function ProductCard({ product }: ProductCardProps) {
               ₹{product.price.toLocaleString()}
             </div>
           </div>
-          <Button
-            onClick={handleAddToCart}
-            className="bg-gradient-accent text-accent-foreground font-display shadow-accent hover:scale-105 transition-transform"
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Add
-          </Button>
+
         </div>
       </div>
     </div>

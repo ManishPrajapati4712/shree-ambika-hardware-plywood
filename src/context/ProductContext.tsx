@@ -13,8 +13,25 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const ProductProvider = ({ children }: { children: React.ReactNode }) => {
     const [products, setProducts] = useState<Product[]>(() => {
-        const savedProducts = localStorage.getItem('products');
-        return savedProducts ? JSON.parse(savedProducts) : initialProducts;
+        const savedProductsJson = localStorage.getItem('products');
+        if (savedProductsJson) {
+            try {
+                const savedProducts = JSON.parse(savedProductsJson) as Product[];
+                // Check if there are any new products in code (initialProducts) that aren't in storage
+                const savedIds = new Set(savedProducts.map(p => p.id));
+                const newProductsInCode = initialProducts.filter(p => !savedIds.has(p.id));
+
+                if (newProductsInCode.length > 0) {
+                    // Merge them
+                    return [...savedProducts, ...newProductsInCode];
+                }
+                return savedProducts;
+            } catch (error) {
+                console.error("Error parsing saved products:", error);
+                return initialProducts;
+            }
+        }
+        return initialProducts;
     });
 
     useEffect(() => {

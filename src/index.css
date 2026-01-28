@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 43 23% 93%;
+    --background: 180 100% 80%;
     --foreground: 220 15% 12%;
 
     --card: 0 0% 100%;
@@ -131,6 +129,21 @@
   h5,
   h6 {
     @apply font-display uppercase tracking-wider;
+  }
+
+  /* Global rule for bold text per user request */
+  b,
+  strong,
+  .font-bold,
+  .font-semibold,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Arial', sans-serif !important;
+    font-weight: bold !important;
   }
 }
 

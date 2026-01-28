@@ -24,7 +24,7 @@ const ForgotPassword = () => {
         const payload = method === 'phone' ? { phone } : { email };
 
         try {
-            const response = await fetch('http://localhost:5000/api/forgot-password', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/forgot-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -58,7 +58,7 @@ const ForgotPassword = () => {
         const payload = method === 'phone' ? { phone, newPassword } : { email, newPassword };
 
         try {
-            const response = await fetch('http://localhost:5000/api/reset-password', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/reset-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
