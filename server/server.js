@@ -429,14 +429,9 @@ app.post('/api/admin/login', (req, res) => {
     const { phone, password } = req.body;
 
     if (phone === ADMIN_PHONE && password === ADMIN_PLAIN_PASSWORD) {
-        // Generate OTP
-        const otp = Math.floor(1000 + Math.random() * 9000); // 4 digit OTP
-        adminOtps[phone] = otp;
-        console.log(`[ADMIN LOGIN] OTP for ${phone}: ${otp}`);
-
-        // In a real app, send SMS here
-
-        res.json({ message: 'Credentials verified', step: 'OTP_REQUIRED', otp: otp }); // Returning OTP for dev convenience
+        // Direct Login Success
+        console.log(`[ADMIN LOGIN] Successful for ${phone}`);
+        res.json({ message: 'Login successful', isAdmin: true });
     } else {
         res.status(401).json({ error: 'Invalid Admin Credentials' });
     }
