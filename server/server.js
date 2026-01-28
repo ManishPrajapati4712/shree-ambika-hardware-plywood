@@ -11,11 +11,13 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Database Connection
+// Database Connection
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'Mysql',
-    database: 'shree-easyshop-main',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'Mysql',
+    database: process.env.DB_NAME || 'shree-easyshop-main',
+    port: process.env.DB_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -457,6 +459,11 @@ app.post('/api/admin/verify-otp', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export app for Vercel
+module.exports = app;
+
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}

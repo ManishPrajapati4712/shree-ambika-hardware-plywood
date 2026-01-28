@@ -54,7 +54,7 @@ const Admin = () => {
 
     useEffect(() => {
         if (activeTab === 'users' && isAuthenticated) {
-            fetch(`${import.meta.env.VITE_API_URL}/api/users`)
+            fetch(`/api/users`)
                 .then(res => res.json())
                 .then(data => setUsers(data))
                 .catch(err => console.error("Failed to fetch users", err));
@@ -138,7 +138,7 @@ const Admin = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/login`, {
+            const response = await fetch(`/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ phone, password }),

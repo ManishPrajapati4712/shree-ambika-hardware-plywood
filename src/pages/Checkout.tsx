@@ -48,7 +48,7 @@ const Checkout = () => {
     }));
 
     // Fetch Admin UPI ID
-    fetch(`${import.meta.env.VITE_API_URL}/api/admin/upi`)
+    fetch(`/api/admin/upi`)
       .then(res => res.json())
       .then(data => {
         if (data.upiId) setAdminUpi(data.upiId);
@@ -120,7 +120,7 @@ const Checkout = () => {
         transaction_id: paymentMethod === 'UPI' ? transactionId : null
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/create-order`, {
+      const response = await fetch(`/api/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)
