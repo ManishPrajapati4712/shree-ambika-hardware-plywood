@@ -1,10 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Phone, Wrench, User } from 'lucide-react';
+import { ShoppingCart, Menu, X, Phone, Wrench } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 import { storeInfo } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import OfferBanner from './OfferBanner';
+import { RegisterDialog } from './RegisterDialog';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -100,9 +101,7 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-
-
-            {/* User / Login */}
+            {/* User Greeting / Register */}
             {localStorage.getItem('user') ? (
               <div className="hidden md:flex items-center gap-2">
                 <span className={`text-sm font-medium ${isScrolled || !isHeroPage ? 'text-foreground' : 'text-primary-foreground'}`}>
@@ -121,16 +120,9 @@ export function Header() {
                 </Button>
               </div>
             ) : (
-              <Link to="/login" className="hidden md:block">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={isScrolled || !isHeroPage ? '' : 'text-primary-foreground hover:bg-white/10 hover:text-primary-foreground'}
-                >
-                  <User className="h-4 w-4 mr-2" />
-                  Login
-                </Button>
-              </Link>
+              <div className="hidden md:block">
+                <RegisterDialog />
+              </div>
             )}
 
             <Link to="/admin" className="hidden md:block">
@@ -178,7 +170,7 @@ export function Header() {
               >
                 Admin Panel
               </Link>
-              {/* Mobile Login/Logout */}
+              {/* Mobile Register/Logout */}
               {localStorage.getItem('user') ? (
                 <button
                   onClick={() => {
@@ -190,13 +182,9 @@ export function Header() {
                   Logout
                 </button>
               ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="py-3 px-4 rounded-lg font-display text-lg tracking-wide hover:bg-muted text-gray-800"
-                >
-                  Login
-                </Link>
+                <div className="px-2">
+                  <RegisterDialog />
+                </div>
               )}
             </div>
           </nav>

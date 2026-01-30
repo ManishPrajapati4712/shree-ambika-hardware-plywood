@@ -43,7 +43,7 @@ const Index = () => {
       {/* Features Strip */}
       <section className="py-6" style={{ backgroundColor: 'lightcyan' }}>
         <div className="container">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+          <div className="flex flex-col items-center gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}

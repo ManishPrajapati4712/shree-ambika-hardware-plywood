@@ -326,7 +326,6 @@ const Admin = () => {
                                                 <th className="text-left py-3 px-4 font-medium">ID</th>
                                                 <th className="text-left py-3 px-4 font-medium">Name</th>
                                                 <th className="text-left py-3 px-4 font-medium">Phone</th>
-                                                <th className="text-left py-3 px-4 font-medium">Email</th>
                                                 <th className="text-left py-3 px-4 font-medium">Joined</th>
                                             </tr>
                                         </thead>
@@ -337,7 +336,6 @@ const Admin = () => {
                                                         <td className="py-3 px-4 text-muted-foreground">#{user.id}</td>
                                                         <td className="py-3 px-4 font-medium">{user.name}</td>
                                                         <td className="py-3 px-4">{user.phone}</td>
-                                                        <td className="py-3 px-4 text-muted-foreground">{user.email || '-'}</td>
                                                         <td className="py-3 px-4 text-muted-foreground">
                                                             {new Date(user.created_at).toLocaleDateString()}
                                                         </td>
@@ -345,7 +343,7 @@ const Admin = () => {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan={5} className="text-center py-8 text-muted-foreground">
+                                                    <td colSpan={4} className="text-center py-8 text-muted-foreground">
                                                         No users found
                                                     </td>
                                                 </tr>

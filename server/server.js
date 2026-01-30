@@ -54,28 +54,67 @@ db.getConnection((err, connection) => {
     }
 });
 
-// Register Endpoint
+// Register Endpoint (File-based storage)
 app.post('/api/register', async (req, res) => {
-    const { name, email, phone, password } = req.body;
+    const { name, phone } = req.body;
 
-    if (!name || !email || !phone || !password) {
-        return res.status(400).json({ error: 'All fields are required' });
+    if (!name || !phone) {
+        return res.status(400).json({ error: 'Name and phone are required' });
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const query = 'INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)';
+        const fs = require('fs');
+        const path = require('path');
+        const usersFile = path.join(__dirname, 'users.json');
 
-        db.query(query, [name, email, phone, hashedPassword], (err, result) => {
-            if (err) {
-                if (err.code === 'ER_DUP_ENTRY') {
-                    return res.status(400).json({ error: 'Phone number already registered' });
-                }
-                return res.status(500).json({ error: 'Database error' });
-            }
-            res.status(201).json({ message: 'User registered successfully' });
-        });
+        // Read existing users
+        let users = [];
+        if (fs.existsSync(usersFile)) {
+            const data = fs.readFileSync(usersFile, 'utf8');
+            users = JSON.parse(data);
+        }
+
+        // Check if phone already exists
+        if (users.some(user => user.phone === phone)) {
+            return res.status(400).json({ error: 'Phone number already registered' });
+        }
+
+        // Add new user
+        const newUser = {
+            id: users.length + 1,
+            name,
+            phone,
+            created_at: new Date().toISOString()
+        };
+        users.push(newUser);
+
+        // Write back to file
+        fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
+
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Get Users Endpoint (for Admin Panel)
+app.get('/api/users', (req, res) => {
+    try {
+        const fs = require('fs');
+        const path = require('path');
+        const usersFile = path.join(__dirname, 'users.json');
+
+        // Read users from file
+        let users = [];
+        if (fs.existsSync(usersFile)) {
+            const data = fs.readFileSync(usersFile, 'utf8');
+            users = JSON.parse(data);
+        }
+
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
         res.status(500).json({ error: 'Server error' });
     }
 });

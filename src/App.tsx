@@ -11,9 +11,6 @@ import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import ForgotPassword from "./pages/auth/ForgotPassword";
 import ScrollToTop from "./components/ScrollToTop";
 
 import { ProductProvider } from "@/context/ProductContext";
@@ -36,9 +33,6 @@ const App = () => (
                 <Route path="/products" element={<Products />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
