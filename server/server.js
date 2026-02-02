@@ -11,7 +11,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Database Connection
-// Database Connection
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -20,39 +19,43 @@ const db = mysql.createPool({
     port: process.env.DB_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    connectTimeout: 10000 // 10 second timeout
 });
 
-// Check connection
-db.getConnection((err, connection) => {
-    if (err) {
-        if (err.code === 'ER_BAD_DB_ERROR') {
-            console.error('Database does not exist. Please create database "shree-easyshop-main"');
+// Non-blocking database initialization
+// This won't block the API from starting
+setTimeout(() => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err.message);
+            console.log('API will still function with file-based storage for registration');
         } else {
-            console.error('Error connecting to database:', err);
+            console.log('Connected to MySQL database');
+
+            // Create Users Table if not exists
+            const createTableQuery = `
+          CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            phone VARCHAR(15) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )
+        `;
+
+            connection.query(createTableQuery, (err, result) => {
+                if (connection) connection.release();
+                if (err) {
+                    console.error('Error creating users table:', err.message);
+                } else {
+                    console.log('Users table checked/created');
+                }
+            });
         }
-    } else {
-        console.log('Connected to MySQL database');
-
-        // Create Users Table if not exists
-        const createTableQuery = `
-      CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL UNIQUE,
-        phone VARCHAR(15) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `;
-
-        connection.query(createTableQuery, (err, result) => {
-            connection.release();
-            if (err) throw err;
-            console.log('Users table checked/created');
-        });
-    }
-});
+    });
+}, 100); // Small delay to prevent blocking
 
 // Register Endpoint (File-based storage)
 app.post('/api/register', async (req, res) => {
