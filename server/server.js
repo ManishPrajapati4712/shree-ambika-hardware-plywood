@@ -57,48 +57,38 @@ setTimeout(() => {
     });
 }, 100); // Small delay to prevent blocking
 
-// Register Endpoint (File-based storage)
+// Register Endpoint (Simplified for debugging)
 app.post('/api/register', async (req, res) => {
-    const { name, phone } = req.body;
-
-    if (!name || !phone) {
-        return res.status(400).json({ error: 'Name and phone are required' });
-    }
-
     try {
-        const fs = require('fs');
-        const path = require('path');
-        // Use /tmp directory for Vercel serverless (writable directory)
-        const usersFile = path.join('/tmp', 'users.json');
+        const { name, phone, email, password } = req.body;
 
-        // Read existing users
-        let users = [];
-        if (fs.existsSync(usersFile)) {
-            const data = fs.readFileSync(usersFile, 'utf8');
-            users = JSON.parse(data);
+        // Basic validation
+        if (!name || !phone) {
+            return res.status(400).json({ error: 'Name and phone are required' });
         }
 
-        // Check if phone already exists
-        if (users.some(user => user.phone === phone)) {
-            return res.status(400).json({ error: 'Phone number already registered' });
-        }
-
-        // Add new user
+        // For now, just return success without file operations
+        // This will help us identify if the issue is with file system or something else
         const newUser = {
-            id: users.length + 1,
+            id: Date.now(),
             name,
             phone,
             created_at: new Date().toISOString()
         };
-        users.push(newUser);
 
-        // Write back to file
-        fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
+        console.log('User registration attempt:', newUser);
 
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        res.status(201).json({
+            message: 'User registered successfully',
+            user: newUser
+        });
     } catch (error) {
         console.error('Registration error:', error);
-        res.status(500).json({ error: 'Server error', details: error.message });
+        res.status(500).json({
+            error: 'Server error',
+            details: error.message,
+            stack: error.stack
+        });
     }
 });
 
