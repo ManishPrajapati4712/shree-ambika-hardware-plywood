@@ -54,10 +54,19 @@ const Admin = () => {
 
     useEffect(() => {
         if (activeTab === 'users' && isAuthenticated) {
-            fetch(`/api/users`)
-                .then(res => res.json())
-                .then(data => setUsers(data))
-                .catch(err => console.error("Failed to fetch users", err));
+            // Fetch users from localStorage (where RegisterDialog saves them)
+            const storedUsers = localStorage.getItem('registeredUsers');
+            if (storedUsers) {
+                try {
+                    const parsedUsers = JSON.parse(storedUsers);
+                    setUsers(parsedUsers);
+                } catch (err) {
+                    console.error("Failed to parse users from localStorage", err);
+                    setUsers([]);
+                }
+            } else {
+                setUsers([]);
+            }
         }
     }, [activeTab, isAuthenticated]);
 
