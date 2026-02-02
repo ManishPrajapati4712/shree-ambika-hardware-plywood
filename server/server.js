@@ -68,7 +68,8 @@ app.post('/api/register', async (req, res) => {
     try {
         const fs = require('fs');
         const path = require('path');
-        const usersFile = path.join(__dirname, 'users.json');
+        // Use /tmp directory for Vercel serverless (writable directory)
+        const usersFile = path.join('/tmp', 'users.json');
 
         // Read existing users
         let users = [];
@@ -97,7 +98,7 @@ app.post('/api/register', async (req, res) => {
         res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
         console.error('Registration error:', error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Server error', details: error.message });
     }
 });
 
@@ -106,7 +107,8 @@ app.get('/api/users', (req, res) => {
     try {
         const fs = require('fs');
         const path = require('path');
-        const usersFile = path.join(__dirname, 'users.json');
+        // Use /tmp directory for Vercel serverless
+        const usersFile = path.join('/tmp', 'users.json');
 
         // Read users from file
         let users = [];
