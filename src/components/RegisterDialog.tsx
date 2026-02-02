@@ -28,34 +28,40 @@ export function RegisterDialog() {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`/api/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name,
-                    phone,
-                    email: `${phone}@placeholder.com`, // Generate placeholder email
-                    password: 'default123' // Default password since it's required by DB
-                }),
-            });
+            // Get existing users from localStorage
+            const existingUsersJson = localStorage.getItem('registeredUsers');
+            const existingUsers = existingUsersJson ? JSON.parse(existingUsersJson) : [];
 
-            const data = await response.json();
-
-            if (response.ok) {
-                // Store user in localStorage
-                const user = { name, phone };
-                localStorage.setItem('user', JSON.stringify(user));
-
-                toast.success('Registration Successful', { description: `Welcome, ${name}!` });
-                setOpen(false);
-                setName('');
-                setPhone('');
-                window.location.reload(); // Refresh to show user in header
-            } else {
-                toast.error('Registration Failed', { description: data.error });
+            // Check if phone already registered
+            const phoneExists = existingUsers.some((user: any) => user.phone === phone);
+            if (phoneExists) {
+                toast.error('Phone number already registered');
+                setIsLoading(false);
+                return;
             }
+
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name,
+                phone,
+                created_at: new Date().toISOString()
+            };
+
+            // Add to users list
+            existingUsers.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(existingUsers));
+
+            // Set as current user
+            localStorage.setItem('user', JSON.stringify({ name, phone }));
+
+            toast.success('Registration Successful', { description: `Welcome, ${name}!` });
+            setOpen(false);
+            setName('');
+            setPhone('');
+            window.location.reload(); // Refresh to show user in header
         } catch (error) {
-            toast.error('Connection Error', { description: 'Could not connect to the server.' });
+            toast.error('Registration Failed', { description: 'Please try again.' });
         } finally {
             setIsLoading(false);
         }
